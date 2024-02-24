@@ -22,9 +22,8 @@ app.use(express.json());
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 app.use("/customer/auth/*", function auth(req, res, next) {
-  const username = req.body.username;
-  const password = req.body.password;
-
+  const {username, password} = req.body;
+  
   if (!username || !password) {
       return res.status(404).json({ message: "Error logging in" });
   }

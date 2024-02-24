@@ -5,8 +5,25 @@ let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
 public_users.post("/register", (req, res) => {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ message: "You must provide both an username and a password" });
+  }
+  if (users[username]) {
+    return res.status(200).json({ message: "User already registered" });
+  } else {
+    users[username] = {
+      username,
+      password,
+    };
+    return res.status(200).json({
+      data: { username, password },
+      message: "Success on registering user",
+    });
+  }
 });
 
 // Get the book list available in the shop
@@ -94,12 +111,10 @@ public_users.get("/review/:isbn", function (req, res) {
     if (reviews) {
       return res.status(200).json({ data: reviews });
     }
-    return res
-      .status(400)
-      .json({
-        data: reviews,
-        message: `There's no reviws in book with ISBN ${isbn}`,
-      });
+    return res.status(400).json({
+      data: reviews,
+      message: `There's no reviws in book with ISBN ${isbn}`,
+    });
   }
   return res.status(400).json({ message: "Please, provide a valid ISBN" });
 });

@@ -15,10 +15,10 @@ public_users.post("/register", (req, res) => {
   if (users[username]) {
     return res.status(200).json({ message: "User already registered" });
   } else {
-    users[username] = {
+    users.push({
       username,
       password,
-    };
+    });
     return res.status(200).json({
       data: { username, password },
       message: "Success on registering user",

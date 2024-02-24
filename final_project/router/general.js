@@ -31,7 +31,6 @@ public_users.get("/isbn/:isbn", function (req, res) {
       .status(400)
       .json({ message: `There's no book with ISBN ${isbn}` });
   }
-  //Write your code here
   return res.status(400).json({ message: "Please, provide a valid ISBN" });
 });
 

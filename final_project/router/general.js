@@ -36,7 +36,6 @@ public_users.get("/isbn/:isbn", function (req, res) {
 
 // Get book details based on author
 public_users.get("/author/:author", function (req, res) {
-  //Write your code here
   const { author } = req.params;
 
   if (author) {
@@ -50,12 +49,10 @@ public_users.get("/author/:author", function (req, res) {
     if (authorBooks.length > 0) {
       return res.status(200).json({ data: authorBooks });
     }
-    return res
-      .status(400)
-      .json({
-        data: authorBooks,
-        message: "Author does not exist in the database",
-      });
+    return res.status(400).json({
+      data: authorBooks,
+      message: "Author does not exist in the database",
+    });
   }
   return res
     .status(400)
@@ -64,8 +61,27 @@ public_users.get("/author/:author", function (req, res) {
 
 // Get all books based on title
 public_users.get("/title/:title", function (req, res) {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const { title } = req.params;
+
+  if (title) {
+    const titleBooks = [];
+
+    for (let book in books) {
+      if (books[book].title.includes(title)) {
+        titleBooks.push(books[book]);
+      }
+    }
+    if (titleBooks.length > 0) {
+      return res.status(200).json({ data: titleBooks });
+    }
+    return res.status(400).json({
+      data: titleBooks,
+      message: "There's no book with this title",
+    });
+  }
+  return res
+    .status(400)
+    .json({ message: "You must provide a valid book title" });
 });
 
 //  Get book review
